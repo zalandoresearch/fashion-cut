@@ -1,0 +1,181 @@
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta name="description" content="Fashion CUT: Boosting Clothing Pattern Classification with Synthetic Data">
+    <meta name="keywords" content="zalando, research, fashion, paper, synthetic, pattern">
+    <meta name="author" content="Enric Moreu">
+    <meta name="theme-color" content="black">
+    <meta property='og:title' content='Fashion CUT' />
+    <meta property='og:image' content='https://github.com/zalandoresearch/fashion-cut/raw/master/images/preview.png' />
+    <meta property='og:description'
+        content='Fashion CUT: Boosting Clothing Pattern Classification with Synthetic Data' />
+    <meta property='og:url' content='https://zalandoresearch.github.io/fashion-cut' />
+    <link rel="shortcut icon" href="favicon.png">
+    <title>Fashion CUT | Zalando Research</title>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@700&display=swap');
+    </style>
+
+    <link href="main.css" rel="stylesheet">
+</head>
+
+<body>
+    <div id="pin-title">
+
+        <section class="panel title">
+            <div>
+                <img class="logo" src="images/logo_default.png">
+            </div>
+
+            <h1>Fashion CUT: Boosting Clothing Pattern Classification with Synthetic Data</h1>
+            <div class="canvas">
+                <canvas id="c"></canvas>
+            </div>
+
+        </section>
+        <section class="panel teaser">
+            <div class="intro">
+                Fashion CUT is an innovative unsupervised domain adaptation technique that harnesses the power of AI and
+                computer graphics to achieve accurate clothing pattern classification.
+            </div>
+            <hr class="links-separator">
+            <div class="links-container">
+                <div class="link-item">
+                    April 2023
+                </div>
+                <div class="link-item">
+                    <a href="https://arxiv.org/abs/2305.05580" target="_blank">Read
+                        paper</a>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <section class="panel intro" id="pin-intro">
+        When it comes to online shopping, accurate product information is crucial to ensure a seamless customer
+        experience. However, providing high-quality product data can be challenging, especially in the fashion
+        industry,
+        where training image classification models requires large amounts of annotated data.
+    </section>
+
+    <section class="panel synthetic_sample">
+
+        <div class="sample-text">
+            <strong>Synthetic data generation</strong>
+            <br>
+            <br>
+            We generate synthetic fashion images using computer-graphics techniques. The generated images do not
+            require
+            manual human validation.
+            For each render we start with a provided 3D object, add lighting effects, apply a
+            procedural
+            material and then randomize its properties (e.g. colors, scale). This setup allows an arbitrary
+            amount
+            of
+            different images for each 3D object to be generated programmatically.
+
+            <div id="canvas-container">
+
+                <canvas id="item" width="200" height="200"></canvas>
+            </div>
+        </div>
+
+    </section>
+    <section class="panel approach">
+
+        <div class="text-approach">
+            <strong> Approach</strong>
+            <br>
+            <br>
+            Unsupervised domain adaptation has shown excellent results when translating images to other domains.
+            Nevertheless, translated images can’t be readily
+            used to train classification models because image features, such as patterns, are
+            distorted during the translation step since the translation model doesn’t have
+            information about the features. Specifically, when complex patterns are shifted
+            to a different domain, they can be distorted to a level that they no longer adhere to the original
+            pattern label
+            for the synthetic image. For example, stripes may no longer look 'stripey' when shifted to the new domain.
+        </div>
+
+    </section>
+    <section class="panel architecture">
+        <img src="images/architecture.png" alt="Fashion CUT architecture" width="90%">
+        <div class="text-image">
+            The proposed architecture includes an image translation model and a classifier model, which are
+            optimized
+            together via a common loss that ensures realistic images with reliable annotations. Pseudo-labeled
+            real images
+            are included in each mini-batch to improve the classifier generalization.
+        </div>
+
+    </section>
+    <section class="panel results">
+        <strong> Results</strong>
+        <br>
+        <br>
+        We compare the performance of domain adaptation algorithms trained only on our 31,840 synthetically
+        generated
+        dataset and evaluated on real fashion images. Our approach outperforms the other algorithms for
+        the
+        pattern classification task. Finally, we found that using pseudo-labels improves the results with minor
+        changes
+        in the training.
+        <div class="results-table">
+            <table class="tg">
+                <thead>
+                    <tr>
+                        <th class="tg-abx8">Method</th>
+                        <th class="tg-abx8">Accuracy</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="tg-0lax">No adaptation</td>
+                        <td class="tg-0lax">0.441</td>
+                    </tr>
+                    <tr>
+                        <td class="tg-0lax">
+                            <a href="https://proceedings.mlr.press/v97/chen19i.html" target="_blank">BSP</a>
+                        </td>
+                        <td class="tg-0lax">0.499</td>
+                    </tr>
+                    <tr>
+                        <td class="tg-0lax"><a href="https://arxiv.org/abs/1904.05801" target="_blank">MDD</a></td>
+                        <td class="tg-0lax">0.540</td>
+                    </tr>
+                    <tr>
+                        <td class="tg-0lax"><a href="https://arxiv.org/abs/1811.07456" target="_blank">AFN</a></td>
+                        <td class="tg-0lax">0.578</td>
+                    </tr>
+                    <tr>
+                        <td class="tg-0lax">fCUT (ours)</td>
+                        <td class="tg-0lax">0.613</td>
+                    </tr>
+                    <tr>
+                        <td class="tg-0lax">fCUT + PL (ours)</td>
+                        <td class="tg-0lax"><span style="font-weight:bold">0.628</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+    <section class="panel conclusions">
+        <strong>Conclusions</strong>
+        <br>
+        <br>
+        Combining synthetic data generation with unsupervised domain adaptation can successfully classify patterns in
+        clothes without real-world annotations. We also found that attaching a classifier to an image translation model
+        can enforce label stability, thus improving performance. Furthermore, our experiments confirm that Fashion CUT
+        outperforms other domain adaptation algorithms in the fashion domain. In addition, pseudo-labels proved to be
+        beneficial for domain adaptation in the advanced stages of the training.
+    </section>
+
+</body>
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.7/ScrollMagic.min.js"></script>
+<script type="module" src="js/main.js"></script>
+
+</html>
