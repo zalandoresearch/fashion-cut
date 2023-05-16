@@ -1,6 +1,7 @@
 import * as THREE from './three.module.js';
 import { OrbitControls } from './OrbitControls.js';
 import { GLTFLoader } from './GLTFLoader.js';
+import { DRACOLoader } from './DRACOLoader.js';
 
 // Global variables
 var model;
@@ -37,8 +38,11 @@ function main() {
 
     // Load model
     const loader = new GLTFLoader();
+    const dracoLoader = new DRACOLoader()
+    dracoLoader.setDecoderPath('./js/')
+    loader.setDRACOLoader(dracoLoader);
     loader.load(
-        'gltf/carousel.glb',
+        'gltf/carousel_compressed.glb',
         function (gltf) {
             gltf.scene.scale.set(5, 5, 5)
             gltf.scene.position.set(0, 5, 0)
